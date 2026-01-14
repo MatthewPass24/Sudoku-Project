@@ -18,7 +18,7 @@ import com.matthewpass.sudoku.solver.SudokuSolver;
 
 @RestController
 @RequestMapping("/api/sudoku")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class SudokuController {
 
     private final SudokuGenerator generator;

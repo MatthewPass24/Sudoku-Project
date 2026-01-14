@@ -1,6 +1,6 @@
 const BASE_URL =
   process.env.REACT_APP_API_URL ||
-  "http://localhost:8080/api/sudoku";
+  "https://sudoku-project-odkh.onrender.com";
 
 export async function fetchNewPuzzle(difficulty) {
   const response = await fetch(
