@@ -1,10 +1,10 @@
 const BASE_URL =
   process.env.REACT_APP_API_URL ||
-  "https://sudoku-project-odkh.onrender.com";
+  "https://sudoku-project-ka87.onrender.com";
 
 export async function fetchNewPuzzle(difficulty) {
   const response = await fetch(
-    `${BASE_URL}/new?difficulty=${difficulty}`
+    `${BASE_URL}/api/sudoku/new?difficulty=${difficulty}`
   );
 
   if (!response.ok) {
@@ -15,13 +15,16 @@ export async function fetchNewPuzzle(difficulty) {
 }
 
 export async function solvePuzzle(board) {
-  const response = await fetch(`${BASE_URL}/solve`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(board),
-  });
+  const response = await fetch(
+    `${BASE_URL}/api/sudoku/solve`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(board),
+    }
+  );
 
   if (!response.ok) {
     throw new Error("Failed to solve puzzle");
