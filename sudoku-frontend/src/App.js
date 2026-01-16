@@ -191,7 +191,7 @@ export default function App() {
       won,
       score
     });
-  }, [board, time, mistakes, gameOver, won, score, difficulty]);
+  }, [board, initialBoard, time, mistakes, gameOver, won, score, difficulty]);
 
   useEffect(() => {
     return () => clearInterval(timerRef.current);
