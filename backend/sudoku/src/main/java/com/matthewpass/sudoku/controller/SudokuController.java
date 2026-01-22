@@ -16,46 +16,33 @@ import com.matthewpass.sudoku.generator.SudokuGenerator;
 import com.matthewpass.sudoku.model.Difficulty;
 import com.matthewpass.sudoku.solver.SudokuSolver;
 
+import org.springframework.web.bind.annotation.*;
+
 @RestController
 @RequestMapping("/api/sudoku")
 @CrossOrigin(origins = "*")
 public class SudokuController {
 
-    private final SudokuGenerator generator;
-    private final SudokuSolver solver;
+    private final SudokuGenerator generator = new SudokuGenerator();
+    private final SudokuSolver solver = new SudokuSolver();
 
-    public SudokuController(SudokuGenerator generator, SudokuSolver solver) {
-        this.generator = generator;
-        this.solver = solver;
-    }
-
+    /* =========================
+       NEW PUZZLE
+       ========================= */
     @GetMapping("/new")
     public Map<String, int[][]> newPuzzle(
-            @RequestParam(required = false) String difficulty) {
-
-        if (difficulty == null) difficulty = "medium";
-
-        Difficulty diff = switch (difficulty.toLowerCase()) {
-            case "easy" -> Difficulty.EASY;
-            case "hard" -> Difficulty.HARD;
-            default -> Difficulty.MEDIUM;
-        };
-
-        SudokuBoard board = generator.generate(diff);
-
-        Map<String, int[][]> response = new HashMap<>();
-        response.put("board", board.getBoard());
-        return response;
+            @RequestParam(defaultValue = "medium") String difficulty
+    ) {
+        int[][] board = generator.generate(difficulty);
+        return Map.of("board", board);
     }
 
+    /* =========================
+       SOLVE PUZZLE
+       ========================= */
     @PostMapping("/solve")
     public Map<String, int[][]> solve(@RequestBody int[][] board) {
-
-        SudokuBoard sudokuBoard = new SudokuBoard(board);
-        solver.solve(sudokuBoard);
-
-        Map<String, int[][]> response = new HashMap<>();
-        response.put("solution", sudokuBoard.getBoard());
-        return response;
+        int[][] solution = solver.solve(board);
+        return Map.of("solution", solution);
     }
 }
